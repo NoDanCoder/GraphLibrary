@@ -1,10 +1,10 @@
-from edge import Edge
+from relation import Relation
 
 
 class Graph:
 
     def __init__(self):
-        self._relation = Edge()
+        self._relation = Relation()
 
     def connect_nodes(self, node_a, node_b):
         self._relation.bind_nodes(node_a, node_b)
