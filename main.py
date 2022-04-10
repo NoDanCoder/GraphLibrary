@@ -23,7 +23,9 @@ if __name__ == "__main__":
 
     print(graph)
 
-    print(graph.is_connected(node1, node3))
-    print(graph.is_connected(node2, node3))
+    print(graph.is_connected(node1, node3) is True)
+    print(graph.is_connected(node2, node3) is False)
 
-    print(" ".join(str(x) for x in graph.get_connected_nodes(node1)))
+    print(graph.get_connected_nodes(node1) == {node2, node3})
+    print(graph.get_connected_nodes(node2) == {node1})
+    print(graph.get_connected_nodes(node3) == {node1})
