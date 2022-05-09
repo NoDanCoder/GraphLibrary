@@ -1,23 +1,25 @@
-from typing import Set, Dict
-
-from node import Node
-
-
 class Relation:
 
-    def __init__(self) -> None:
-        self._edge_dict = {}  # type: Dict[Node, Set[Node]]
+    def __init__(self):
+        self._node_edge_relation = {}
+        self._clazz_node_relation = {}
 
-    def bind_nodes(self, node_a: Node, node_b: Node) -> None:
-        self._edge_dict.setdefault(node_a, set()).add(node_b)
-        self._edge_dict.setdefault(node_b, set()).add(node_a)
+    def link_nodes(self, node, edge):
+        self._node_edge_relation[node] = edge
+        self._clazz_node_relation.setdefault(type(edge), set()).add(node)
 
-    def is_related(self, node_a: Node, node_b: Node) -> bool:
-        return node_b in self._edge_dict[node_a]
+    def is_node_linked(self, node):
+        return node in self._node_edge_relation.keys()
 
-    def get_siblings(self, node: Node) -> Set[Node]:
-        return self._edge_dict[node]
+    def is_node_linked_by(self, node, clazz):
+        edge = self._node_edge_relation[node]
+        return isinstance(edge, clazz)
 
-    def __str__(self) -> str:
-        return "".join(f"{k}: " + ", ".join(str(x) for x in v) + "\n"
-                       for k, v in self._edge_dict.items())
+    def connected_nodes(self):
+        return self._node_edge_relation.items()
+
+    def connected_nodes_by(self, clazz):
+        try:
+            return self._clazz_node_relation[clazz]
+        except KeyError:
+            return set()
